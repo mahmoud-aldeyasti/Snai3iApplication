@@ -8,7 +8,7 @@ namespace Snai3i_DAL.Data.Models
 {
     public class Order : Deletebase, Isoftdelete
     {
-        public int OrderNumber { get; set; }
+        public int Id { get; set; }
 
         public DateTime ForwardDate { get; set; }
 
@@ -17,6 +17,10 @@ namespace Snai3i_DAL.Data.Models
         public double Value { get; set; }
 
         public double Commision { get; set; }
+
+        public int reviewId { get; set; }
+
+        public Review review { get; set; }
 
 
     }

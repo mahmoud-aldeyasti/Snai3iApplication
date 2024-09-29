@@ -14,14 +14,14 @@ namespace Snai3i_DAL.Data.Models
 
         public string Description { get; set; }
 
-        public string Image {  get; set; }  
-
-        public bool Isdeleted { get; set; }
+        public string Image { get; set; }
 
         ICollection<Worker> workers { get; set; } = new HashSet<Worker>();
 
-        ICollection<User> user { get; set; }    = new HashSet<User>();
-        
+        ICollection<User> user { get; set; } = new HashSet<User>();
+
         ICollection<Size> sizes { get; set; } = new HashSet<Size>();
+
+        public ICollection<Card> cards { get; set; } = new HashSet<Card>();
     }
 }

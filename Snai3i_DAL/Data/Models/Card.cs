@@ -8,19 +8,23 @@ namespace Snai3i_DAL.Data.Models
 {
     public class Card : Deletebase , Isoftdelete
     {
-        public int CardId { get; set; }
-
-        public int ToolId { get; set; }
-
-        public  int SizeId { get; set; }
-
-        public int BuyerId { get; set; }
+        public int Id { get; set; }
 
         public int Quantity { get; set; }
 
-        public User User { get; set; } = new User();    
-         
-        public Worker Worker { get; set; } = new Worker();  
+        public int ToolId { get; set; }
+
+        public Tool tool { get; set; }
+        public int SizeId { get; set; }
+
+        public Size size { get; set; }
+        public int SaleId { get; set; }
+        public Sales Sale { get; set; }
+
+        public usertype buyertype { get; set; }
+        public int BuyerId { get; set; }
+
+        public ApplicationUser buyer { get; set; } = new ApplicationUser();
 
     }
 }
