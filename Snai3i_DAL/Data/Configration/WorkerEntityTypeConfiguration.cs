@@ -14,26 +14,19 @@ namespace Snai3i_DAL.Data.Configration
 
         public void Configure(EntityTypeBuilder<Worker> builder)
         {
-            builder.HasKey(a => a.Id);
+            builder.HasMany(e => e.orders)
+                .WithOne(e => e.worker)
+                .HasForeignKey(e => e.WorkerId)
+            .IsRequired(); 
+                
 
-            builder.Property(a => a.Id)
-                   .IsRequired()
-                   .HasMaxLength(14)
-                   ;
-            builder.Property(a => a.phone)
-                  .HasMaxLength(11)
-                   ;
-            builder.Property(a => a.email)
-                ;
+
             builder.Property(a => a.Isdeleted)
                 .HasDefaultValue(false)
                 ;
 
-            builder.HasMany(a => a.users)
-                   .WithMany(a => a.workers);
 
-            //isdeleted filter 
-            builder.HasQueryFilter(a => a.Isdeleted == false);
+
 
         }
 

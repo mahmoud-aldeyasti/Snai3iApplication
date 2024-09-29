@@ -13,10 +13,15 @@ namespace Snai3i_DAL.Data.Configration
     {
         public void Configure(EntityTypeBuilder<Tool> builder)
         {
-            //throw new NotImplementedException();
+
 
             builder.Property(a => a.Isdeleted)
                 .HasDefaultValue(false);
+
+            builder.HasMany(e => e.cards)
+                .WithOne(e => e.tool).
+                HasForeignKey(e => e.ToolId)
+                .IsRequired(); 
 
             builder.HasQueryFilter(a => a.Isdeleted == false);
 

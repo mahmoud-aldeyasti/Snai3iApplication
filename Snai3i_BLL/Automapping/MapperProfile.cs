@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Snai3i_BLL.DTO.AcountDto;
+using Snai3i_DAL.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +13,9 @@ namespace Snai3i_BLL.Automapping
     {
         public MapperProfile()
         {
-            
+
+
+
         }
 
     }
