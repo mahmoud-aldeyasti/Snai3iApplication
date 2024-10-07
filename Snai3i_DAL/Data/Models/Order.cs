@@ -14,13 +14,18 @@ namespace Snai3i_DAL.Data.Models
 
         public DateTime ConfirmDate { get; set; }
 
+        public string UserId { get; set; }
+        public User user { get; set; } = null;
+
+        public string WorkerId { get; set; }
+        public Worker worker { get; set; } = null;
         public double Value { get; set; }
 
         public double Commision { get; set; }
 
         public int reviewId { get; set; }
 
-        public Review review { get; set; }
+        public Review? review { get; set; }
 
 
     }

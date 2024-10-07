@@ -16,7 +16,8 @@ namespace Snai3i_DAL.Data.Models
 
         public int Stock { get; set; }
 
-        public ICollection<Tool> tools { get; set; } = new HashSet<Tool>();
+        public int ToolId { get; set; }
+        public Tool tool { get; set; } = null;
 
         public ICollection<Card> cards { get; set; } = new HashSet<Card>();
     }

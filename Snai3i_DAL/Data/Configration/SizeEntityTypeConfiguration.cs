@@ -13,6 +13,17 @@ namespace Snai3i_DAL.Data.Configration
     {
         public void Configure(EntityTypeBuilder<Size> builder)
         {
+            builder.HasOne(e => e.tool).
+                WithMany(e => e.sizes)
+                    .HasForeignKey(e => e.ToolId)
+                    .IsRequired(true); 
+
+
+            builder.HasMany(e => e.cards).
+                WithOne(e => e.size)
+                .HasForeignKey(e => e.SizeId)
+                .IsRequired(); 
+
             builder.Property(a => a.Isdeleted)
                 .HasDefaultValue(false);
 

@@ -16,11 +16,11 @@ namespace Snai3i_DAL.Data.Models
 
         public string Image { get; set; }
 
-        ICollection<Worker> workers { get; set; } = new HashSet<Worker>();
+        public ICollection<ApplicationUser> buyers { get; set; } = new HashSet<ApplicationUser>();
 
-        ICollection<User> user { get; set; } = new HashSet<User>();
 
-        ICollection<Size> sizes { get; set; } = new HashSet<Size>();
+
+        public ICollection<Size> sizes { get; set; } = new HashSet<Size>();
 
         public ICollection<Card> cards { get; set; } = new HashSet<Card>();
     }

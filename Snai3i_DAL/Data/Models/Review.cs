@@ -9,11 +9,11 @@ namespace Snai3i_DAL.Data.Models
     public class Review : Deletebase, Isoftdelete
     {
         public int Id { get; set; }
-        public int UsertId { get; set; }
-        public User user { get; set; } = new User();
+        public string UserId { get; set; }
+        public User user { get; set; } = null;
 
-        public int WorkerId { get; set; }
-        public Worker worker { get; set; } = new Worker();
+        public string WorkerId { get; set; }
+        public Worker worker { get; set; } = null;
 
         public float Rate { get; set; }
 
@@ -21,6 +21,6 @@ namespace Snai3i_DAL.Data.Models
 
         public int OrderId { get; set; }
 
-        public Order order { get; set; } = new Order();
+        public Order order { get; set; } = null;
     }
 }
