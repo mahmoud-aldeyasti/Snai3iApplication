@@ -8,6 +8,7 @@ namespace Snai3i_DAL.Data.Models
 {
     public class Sales : Deletebase, Isoftdelete
     {
+        //kholoud
         public int Id { get; set; }
 
 
