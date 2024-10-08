@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Snai3i_DAL.Data.Context;
 
@@ -11,9 +12,11 @@ using Snai3i_DAL.Data.Context;
 namespace Snai3i_DAL.Migrations
 {
     [DbContext(typeof(SnaiiDBContext))]
-    partial class SnaiiDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241008044047_AhmedupdateCreatIdToString")]
+    partial class AhmedupdateCreatIdToString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

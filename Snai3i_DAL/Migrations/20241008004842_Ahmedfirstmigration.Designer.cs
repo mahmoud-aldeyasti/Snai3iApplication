@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Snai3i_DAL.Data.Context;
 
@@ -11,9 +12,11 @@ using Snai3i_DAL.Data.Context;
 namespace Snai3i_DAL.Migrations
 {
     [DbContext(typeof(SnaiiDBContext))]
-    partial class SnaiiDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241008004842_Ahmedfirstmigration")]
+    partial class Ahmedfirstmigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -463,7 +466,7 @@ namespace Snai3i_DAL.Migrations
                         {
                             Id = "superadmin-id",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c60a0902-8563-466d-a18c-d5aa7c6837bc",
+                            ConcurrencyStamp = "b318e2c1-bde3-4891-ab6a-c7d21aa8756e",
                             Email = "kholoud@sani3i.com",
                             EmailConfirmed = true,
                             Isdeleted = false,
@@ -471,10 +474,10 @@ namespace Snai3i_DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "KHOLOUD@SANI3I.COM",
                             NormalizedUserName = "KHOLOUD",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBNvh0gF5L/Tr/97rpd9IqOqJqfXfdqcSgMAZFKLRXt0J0cHJXUVvBPtVpN6iRwBIg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFG7N6vyggzL1Y5O9c3vyY3d3Muyk6XqFxG79LCE23BLSJEyE2uRraIiNcN24aIPdg==",
                             PhoneNumber = "0100000000",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "b827c7a9-23c0-4f04-ae36-d2fad9165fb0",
+                            SecurityStamp = "cb5d0449-40b8-4af9-8917-bc6d9947578f",
                             TwoFactorEnabled = false,
                             UserName = "kholoud",
                             image = "Khouloud.png",
@@ -511,8 +514,8 @@ namespace Snai3i_DAL.Migrations
                     b.Property<int>("ToolId")
                         .HasColumnType("int");
 
-                    b.Property<string>("createdbyId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("createdbyId")
+                        .HasColumnType("int");
 
                     b.Property<string>("createdbyName")
                         .HasColumnType("nvarchar(max)");
@@ -520,8 +523,8 @@ namespace Snai3i_DAL.Migrations
                     b.Property<DateTime?>("createddatetime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("deletedbyId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("deletedbyId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("deleteddatetime")
                         .HasColumnType("datetime2");
@@ -529,8 +532,8 @@ namespace Snai3i_DAL.Migrations
                     b.Property<DateTime?>("modifiedDatetime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("modifiedbyId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("modifiedbyId")
+                        .HasColumnType("int");
 
                     b.Property<string>("modifiedbyName")
                         .HasColumnType("nvarchar(max)");
@@ -608,8 +611,8 @@ namespace Snai3i_DAL.Migrations
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("createdbyId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("createdbyId")
+                        .HasColumnType("int");
 
                     b.Property<string>("createdbyName")
                         .HasColumnType("nvarchar(max)");
@@ -617,8 +620,8 @@ namespace Snai3i_DAL.Migrations
                     b.Property<DateTime?>("createddatetime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("deletedbyId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("deletedbyId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("deleteddatetime")
                         .HasColumnType("datetime2");
@@ -626,8 +629,8 @@ namespace Snai3i_DAL.Migrations
                     b.Property<DateTime?>("modifiedDatetime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("modifiedbyId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("modifiedbyId")
+                        .HasColumnType("int");
 
                     b.Property<string>("modifiedbyName")
                         .HasColumnType("nvarchar(max)");
@@ -658,8 +661,8 @@ namespace Snai3i_DAL.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
-                    b.Property<string>("createdbyId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("createdbyId")
+                        .HasColumnType("int");
 
                     b.Property<string>("createdbyName")
                         .HasColumnType("nvarchar(max)");
@@ -667,8 +670,8 @@ namespace Snai3i_DAL.Migrations
                     b.Property<DateTime?>("createddatetime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("deletedbyId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("deletedbyId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("deleteddatetime")
                         .HasColumnType("datetime2");
@@ -676,8 +679,8 @@ namespace Snai3i_DAL.Migrations
                     b.Property<DateTime?>("modifiedDatetime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("modifiedbyId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("modifiedbyId")
+                        .HasColumnType("int");
 
                     b.Property<string>("modifiedbyName")
                         .HasColumnType("nvarchar(max)");
@@ -739,8 +742,8 @@ namespace Snai3i_DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("createdbyId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("createdbyId")
+                        .HasColumnType("int");
 
                     b.Property<string>("createdbyName")
                         .HasColumnType("nvarchar(max)");
@@ -748,8 +751,8 @@ namespace Snai3i_DAL.Migrations
                     b.Property<DateTime?>("createddatetime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("deletedbyId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("deletedbyId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("deleteddatetime")
                         .HasColumnType("datetime2");
@@ -757,8 +760,8 @@ namespace Snai3i_DAL.Migrations
                     b.Property<DateTime?>("modifiedDatetime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("modifiedbyId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("modifiedbyId")
+                        .HasColumnType("int");
 
                     b.Property<string>("modifiedbyName")
                         .HasColumnType("nvarchar(max)");
@@ -844,8 +847,8 @@ namespace Snai3i_DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("createdbyId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("createdbyId")
+                        .HasColumnType("int");
 
                     b.Property<string>("createdbyName")
                         .HasColumnType("nvarchar(max)");
@@ -853,8 +856,8 @@ namespace Snai3i_DAL.Migrations
                     b.Property<DateTime?>("createddatetime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("deletedbyId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("deletedbyId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("deleteddatetime")
                         .HasColumnType("datetime2");
@@ -862,8 +865,8 @@ namespace Snai3i_DAL.Migrations
                     b.Property<DateTime?>("modifiedDatetime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("modifiedbyId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("modifiedbyId")
+                        .HasColumnType("int");
 
                     b.Property<string>("modifiedbyName")
                         .HasColumnType("nvarchar(max)");
@@ -943,8 +946,8 @@ namespace Snai3i_DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("createdbyId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("createdbyId")
+                        .HasColumnType("int");
 
                     b.Property<string>("createdbyName")
                         .HasColumnType("nvarchar(max)");
@@ -952,8 +955,8 @@ namespace Snai3i_DAL.Migrations
                     b.Property<DateTime?>("createddatetime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("deletedbyId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("deletedbyId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("deleteddatetime")
                         .HasColumnType("datetime2");
@@ -961,8 +964,8 @@ namespace Snai3i_DAL.Migrations
                     b.Property<DateTime?>("modifiedDatetime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("modifiedbyId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("modifiedbyId")
+                        .HasColumnType("int");
 
                     b.Property<string>("modifiedbyName")
                         .HasColumnType("nvarchar(max)");
@@ -1032,8 +1035,8 @@ namespace Snai3i_DAL.Migrations
                     b.Property<double>("ToolSize")
                         .HasColumnType("float");
 
-                    b.Property<string>("createdbyId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("createdbyId")
+                        .HasColumnType("int");
 
                     b.Property<string>("createdbyName")
                         .HasColumnType("nvarchar(max)");
@@ -1041,8 +1044,8 @@ namespace Snai3i_DAL.Migrations
                     b.Property<DateTime?>("createddatetime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("deletedbyId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("deletedbyId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("deleteddatetime")
                         .HasColumnType("datetime2");
@@ -1050,8 +1053,8 @@ namespace Snai3i_DAL.Migrations
                     b.Property<DateTime?>("modifiedDatetime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("modifiedbyId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("modifiedbyId")
+                        .HasColumnType("int");
 
                     b.Property<string>("modifiedbyName")
                         .HasColumnType("nvarchar(max)");
@@ -1117,8 +1120,8 @@ namespace Snai3i_DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("createdbyId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("createdbyId")
+                        .HasColumnType("int");
 
                     b.Property<string>("createdbyName")
                         .HasColumnType("nvarchar(max)");
@@ -1126,8 +1129,8 @@ namespace Snai3i_DAL.Migrations
                     b.Property<DateTime?>("createddatetime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("deletedbyId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("deletedbyId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("deleteddatetime")
                         .HasColumnType("datetime2");
@@ -1135,8 +1138,8 @@ namespace Snai3i_DAL.Migrations
                     b.Property<DateTime?>("modifiedDatetime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("modifiedbyId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("modifiedbyId")
+                        .HasColumnType("int");
 
                     b.Property<string>("modifiedbyName")
                         .HasColumnType("nvarchar(max)");
@@ -1204,7 +1207,7 @@ namespace Snai3i_DAL.Migrations
                         {
                             Id = "user1-id",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c2143db8-3635-434d-809c-02888726069f",
+                            ConcurrencyStamp = "a87ede30-0147-48b6-a098-23f8d2ed8989",
                             Email = "ahmed@example.com",
                             EmailConfirmed = true,
                             Isdeleted = false,
@@ -1212,9 +1215,9 @@ namespace Snai3i_DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "AHMED@EXAMPLE.COM",
                             NormalizedUserName = "AHMED",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOj1cD5GefdaCbSSM4YYbjiF7/AzOf7tJ8EKOh+gvUFZVgdU0uxLcWeBLAOjTlLc4w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECGYZOhGUvvvX56P6sJJOazqVnWnRI3MagTzu+X5H23uWXoZy486W/wub1iEcvg75w==",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "0952325c-f557-4786-868a-b71f92cd10bd",
+                            SecurityStamp = "b88049c6-fd09-416d-9d28-0e7cc915aa47",
                             TwoFactorEnabled = false,
                             UserName = "ahmed",
                             image = "ahmed.png",
@@ -1226,7 +1229,7 @@ namespace Snai3i_DAL.Migrations
                         {
                             Id = "user2-id",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "81bae25c-fc5d-4bb9-89ec-d50b2f64c385",
+                            ConcurrencyStamp = "6b75b87d-0593-4bf5-afd7-a083656f04a5",
                             Email = "sara@example.com",
                             EmailConfirmed = true,
                             Isdeleted = false,
@@ -1234,9 +1237,9 @@ namespace Snai3i_DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SARA@EXAMPLE.COM",
                             NormalizedUserName = "SARA",
-                            PasswordHash = "AQAAAAIAAYagAAAAECz4XY+FV1aZx+VqD4l6dOzrPiSgqGEuVahVImVMc8DQRnLx8vW8iz3xjlmtoW208Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEL9TS14VXa7bITojb3g+XvYC8xRPlohmCij90OaUf+43P4AmXa4vpLqj4x2e/H+H0g==",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "50be578b-db49-403c-b674-2a68e7bee08a",
+                            SecurityStamp = "4fd6d2cb-b274-4802-9902-f48ac4b4fafd",
                             TwoFactorEnabled = false,
                             UserName = "sara",
                             image = "Sara.png",
@@ -1248,7 +1251,7 @@ namespace Snai3i_DAL.Migrations
                         {
                             Id = "user3-id",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3ce106b8-54d9-4ba8-baf5-30614af1e453",
+                            ConcurrencyStamp = "b2cd1f5c-bf46-44c5-abdf-48ae87fe2c76",
                             Email = "omar@example.com",
                             EmailConfirmed = true,
                             Isdeleted = false,
@@ -1256,9 +1259,9 @@ namespace Snai3i_DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "OMAR@EXAMPLE.COM",
                             NormalizedUserName = "OMAR",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKeSwvA7kOmhcZyZktCaIgHw+5APHX92Jl99rB9NaBMU4HkvxEir7tFuR7E4ITOXxQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIlJAR4Qod++sPcR/QA8Wgk6gwgnATZD8sYgdiQ0pAx6mgk1RhBHAMZHKkgl0d3ieQ==",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "652ba7eb-1b06-41ba-ac16-7d7049490978",
+                            SecurityStamp = "283528bd-5ff5-40f3-9952-6a9c4378664d",
                             TwoFactorEnabled = false,
                             UserName = "omar",
                             image = "Omar.png",
@@ -1296,7 +1299,7 @@ namespace Snai3i_DAL.Migrations
                         {
                             Id = "worker1-id",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bdc028f4-c98a-48e6-b710-66efef87ea79",
+                            ConcurrencyStamp = "b8e6faec-0017-4e3a-a8f5-4928b3b2068d",
                             Email = "mustafa@example.com",
                             EmailConfirmed = true,
                             Isdeleted = false,
@@ -1304,9 +1307,9 @@ namespace Snai3i_DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MUSTAFA@EXAMPLE.COM",
                             NormalizedUserName = "MUSTAFA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAMCNdEeEsM/UeJTfULpH3PLMnk3OS9V0ympPvO2uojA8y3CWM4533MeP0YDZKc8fw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPhB4yyPmAwDnRpArkpXZLv20hdNXMyhtj1TRtSVXicyOW+NJsCJ+pEKibgTHj2ggg==",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "3d8d0c16-7be3-4aeb-9836-79f6b2c0864e",
+                            SecurityStamp = "ec167638-8d84-440f-abc2-d2d180465b58",
                             TwoFactorEnabled = false,
                             UserName = "mustafa",
                             image = "Mustafa.png",
@@ -1321,7 +1324,7 @@ namespace Snai3i_DAL.Migrations
                         {
                             Id = "worker2-id",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2ee0776a-800f-4a0a-912c-274195349dfb",
+                            ConcurrencyStamp = "720bd32a-64a7-4909-b295-7ca71bdaee74",
                             Email = "mohamed@example.com",
                             EmailConfirmed = true,
                             Isdeleted = false,
@@ -1329,9 +1332,9 @@ namespace Snai3i_DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MOHAMED@EXAMPLE.COM",
                             NormalizedUserName = "MOHAMED",
-                            PasswordHash = "AQAAAAIAAYagAAAAECqKADDJQp/5BQjqWsVGB7JfWDywkoHFGlu8caxI0jzgdQFE+529YgPkgHGGUUe/TQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIHpAuIG9xMyDoooapWG5DTymssN/PaJCcvnptNRv4NXuySXarAkntf00ZCqNTDrug==",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "fffa27a0-7ab9-49ab-8a83-0d550dc00a8d",
+                            SecurityStamp = "dcc69a68-51d7-488b-97af-7939b464b171",
                             TwoFactorEnabled = false,
                             UserName = "mohamed",
                             image = "Mohamed.png",
@@ -1346,7 +1349,7 @@ namespace Snai3i_DAL.Migrations
                         {
                             Id = "worker3-id",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f2a16e7d-6572-493e-a122-034fdec7b056",
+                            ConcurrencyStamp = "8e1443f2-349f-49d9-a8f7-23572e7ca19c",
                             Email = "fatma@example.com",
                             EmailConfirmed = true,
                             Isdeleted = false,
@@ -1354,9 +1357,9 @@ namespace Snai3i_DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "FATMA@EXAMPLE.COM",
                             NormalizedUserName = "FATMA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEH6DUKJcdnUx2k3xeh5J+PRaPceKC15jDqFGGtlcIGcDqRdmsYEzSZ7h8+oPxq+Luw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMo8JX6LDtNfRW5kQaPS4pU4Twm6q2LYFS/V3YoVyn2LPgK236MFZFV9IlF+xAnH+A==",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "37ef8add-dcb0-4cf0-87cf-c6910ee1955f",
+                            SecurityStamp = "63f18476-3c27-4d47-ba61-55d06d69b862",
                             TwoFactorEnabled = false,
                             UserName = "fatma",
                             image = "Fatma.png",

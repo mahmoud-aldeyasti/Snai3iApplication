@@ -1,4 +1,6 @@
 ﻿using Snai3i_DAL.Data.Context;
+using Snai3i_DAL.Data.Repository.SizesRepository;
+using Snai3i_DAL.Data.Repository.ToolsRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,14 +14,16 @@ namespace Snai3i_DAL.Data.Repository.UnitOfWork
 
 
         private readonly SnaiiDBContext _context;
-        //public IToolsRepository Toolss { get; private set; }
+        public IToolRepository Toolss { get; private set; }
+        public ISizeRepository Sizee { get; private set; }
 
         //public ICraftRepo Craftt { get; private set; }
 
         public UnitOfWork(SnaiiDBContext context)
         {
             _context = context;
-            //Toolss = new ToolsRepository(_context);
+            Toolss = new ToolRepository(_context);
+            Sizee = new SizeRepository(_context);
             //Craftt = new CraftRepo(_context);
         }
 

@@ -5,11 +5,16 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Snai3i_BLL.Automapping;
 using Snai3i_BLL.Manager.Acountmanager;
+using Snai3i_BLL.Manager.SizesManager;
+using Snai3i_BLL.Manager.ToolsManager;
 using Snai3i_DAL.Data.Context;
 using Snai3i_DAL.Data.Models;
 using Snai3i_DAL.Data.Repository.GenericRepository;
 using Snai3i_DAL.Data.Repository.SalesRepository;
 using Snai3i_DAL.Data.Repository.service;
+using Snai3i_DAL.Data.Repository.SizesRepository;
+using Snai3i_DAL.Data.Repository.ToolsRepository;
+using Snai3i_DAL.Data.Repository.UnitOfWork;
 using System.Text;
 
 namespace Snai3i_API
@@ -91,6 +96,19 @@ namespace Snai3i_API
             // register automapper 
 
             builder.Services.AddAutoMapper(map => map.AddProfile(new MapperProfile()));
+
+            // register of Tool repository
+            builder.Services.AddScoped<IToolRepository, ToolRepository>();
+            builder.Services.AddScoped<ISizeRepository, SizeRepository>();
+
+            // register of Unit of work repository
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            builder.Services.AddScoped<IToolManager, ToolManager>();
+            builder.Services.AddScoped<ISizeManager, SizeManager>();
+
+            //builder.Services.AddScoped<ICraftManger, CraftManger>();
+
 
             var app = builder.Build();
 

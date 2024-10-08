@@ -3,6 +3,7 @@ using Snai3i_DAL.Data.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,8 +21,25 @@ namespace Snai3i_DAL.Data.Repository.GenericRepository
         }
 
         // generic get all async
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> perdicate, string? Includeword)
         {
+
+            IQueryable<T> query = table;
+            if (perdicate != null)
+            {
+                query = query.Where(perdicate);
+            }
+            if (Includeword != null)
+            {
+                //split =>  , هيجيلك كلمه او اكتر من كلمه هتفصل بنهم ب 
+                //context.tool.include("Size, Revie") فا انا بقوله ممكن يجيلك كلمه واحده او اكتر من كلمه فا لما يجيلك اكتر من كلمه اعمل ما بنهم الفصله دى وخد كل كلمه لوحدها
+                foreach (var item in Includeword.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(item);
+                }
+
+            }
+
 
             return await table.AsNoTracking().ToListAsync();
         }
