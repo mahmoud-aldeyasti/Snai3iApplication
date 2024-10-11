@@ -8,17 +8,16 @@ namespace Snai3i_DAL.Data.Models
 {
     public class Chat :  Deletebase , Isoftdelete
     {
-        public int SenderId { get; set; }
+        public int Id { get; set; }
+        public string SenderId { get; set; }
 
-        public int ReceiverId { get; set; }
+        public ApplicationUser sender { get; set; } = null;
+
+        public string ReceiverId { get; set; }
+        public ApplicationUser receiver { get; set; } = null ;
 
         public DateTime Date { get; set; }
-
         public string Message { get; set; }
-
-        public User user { get; set; } = new User();
-
-        public Worker worker { get; set; }  = new Worker();
 
     }
 }

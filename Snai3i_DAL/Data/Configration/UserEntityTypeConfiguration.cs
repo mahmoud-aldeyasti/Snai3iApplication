@@ -14,12 +14,14 @@ namespace Snai3i_DAL.Data.Configration
 
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.HasMany(e => e.orders)
+                .WithOne(e => e.user)
+                .HasForeignKey(e => e.UserId)
+            .IsRequired(false);
 
-            builder.Property(a => a.Isdeleted)
-                 .HasDefaultValue(false);
-
-
-            builder.HasQueryFilter(a => a.Isdeleted == false);
+            builder.HasMany(e => e.workers)
+                .WithMany(e => e.users); 
+           
 
         }
 
