@@ -13,10 +13,17 @@ namespace Snai3i_DAL.Data.Configration
     {
         public void Configure(EntityTypeBuilder<Craft> builder)
         {
+            builder.HasMany(e => e.workers)
+                .WithOne(e => e.craft)
+                .HasForeignKey(e => e.CraftId)
+                .IsRequired(false); 
+
             builder.Property(a => a.Isdeleted)
                .HasDefaultValue(false);
 
             builder.HasQueryFilter(a => a.Isdeleted == false);
+
+            
         }
     }
 }

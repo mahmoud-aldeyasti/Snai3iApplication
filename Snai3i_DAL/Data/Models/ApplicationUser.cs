@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,18 +11,44 @@ namespace Snai3i_DAL.Data.Models
     {
        SuperAdmin ,Admin , User , Worker 
     }
-    public class ApplicationUser : Deletebase
+    public class ApplicationUser :  IdentityUser
     {
 
-        public int Id { get; set; }
 
-        public usertype Role { get; set; }
-        public string first_name { get; set; }
-        public string last_name { get; set; }
-        public String  email { get; set; }  
-        public  String  password { get; set; }
-        public  int  phone { get; set; }
+        public usertype type { get; set; }
+
+        public string LastName { get; set; }
+
+
         public string  image {  get; set; }
+
+        public bool Isdeleted { get; set; }
+        public int? deletedbyId { get; set; }
+
+        public DateTime? deleteddatetime { get; set; }
+
+        public int? createdbyId { get; set; }
+
+        public string? createdbyName { get; set; }
+
+        public DateTime? createddatetime { get; set; }
+
+        public int? modifiedbyId { get; set; }
+
+        public string? modifiedbyName { get; set; }
+
+        public DateTime? modifiedDatetime { get; set; }
+
+        public ICollection<Chat> SentChats { get; set; } = new HashSet<Chat>();
+        public ICollection<Chat> ReceivedChats { get; set; } = new HashSet<Chat>();
+
+        public ICollection<Tool> tools { get; set; } = new HashSet<Tool>();
+
+
+
+        public ICollection<Card> cards { get; set; } = new HashSet<Card>();
+
+
 
     }
 }

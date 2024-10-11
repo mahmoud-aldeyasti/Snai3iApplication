@@ -36,6 +36,7 @@ namespace Snai3i_DAL.Data.Repository.GenericRepository
         public async Task InsertAsync(T entity)
         {
             await table.AddAsync(entity);
+            //Context.SaveChanges();
         }
 
         // generic update async 

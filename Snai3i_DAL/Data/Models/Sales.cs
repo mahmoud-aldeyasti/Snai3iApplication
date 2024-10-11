@@ -20,8 +20,11 @@ namespace Snai3i_DAL.Data.Models
         public string OrderState { get; set; }
         public int CardId { get; set; }
 
-        public Card card { get; set; } = new Card();
+        public Card card { get; set; } = null;
 
 
     }
+
+
+
 }

@@ -16,7 +16,7 @@ namespace Snai3i_DAL.Data.Models
 
         public string Image { get; set; }
 
-        ICollection<Worker> workers { get; set; } = new HashSet<Worker>();
+
 
         ICollection<User> user { get; set; } = new HashSet<User>();
 

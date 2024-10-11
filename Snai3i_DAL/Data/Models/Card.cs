@@ -19,12 +19,14 @@ namespace Snai3i_DAL.Data.Models
 
         public Size size { get; set; }
         public int SaleId { get; set; }
+
         public Sales Sale { get; set; }
 
         public usertype buyertype { get; set; }
         public int BuyerId { get; set; }
 
         public ApplicationUser buyer { get; set; } = new ApplicationUser();
+
 
     }
 }
