@@ -11,9 +11,9 @@ namespace Snai3i_BLL.Manager.SizesManager
     public interface ISizeManager
     {
 
-        Task<IEnumerable<ReadSizeDTO>> GetAllAsync();
+        //Task<IEnumerable<ReadSizeDTO>> GetAllAsync();
 
-        Task<ReadSizeDTO> GetByIdAsync(int id);
+        //Task<ReadSizeDTO> GetByIdAsync(int id);
 
         public Task AddAsync(AddSizeDTO addSizeDTO);
 

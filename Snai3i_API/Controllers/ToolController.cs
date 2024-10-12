@@ -17,13 +17,25 @@ namespace Snai3i_API.Controllers
             _toolManager = toolManager;
         }
 
+
+
+
         //Get All
 
         [HttpGet]
-        public async Task<IActionResult> GetTool()
+        public async Task<IActionResult> GetTool(/*int pagesize , int pageindex*/ )
         {
-            return Ok(await _toolManager.GetAllAsync());
+            try
+            {
+                return Ok(await _toolManager.GetAllAsync());
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.InnerException.Message);
+            }
         }
+
+
 
         //get by id 
 
@@ -31,40 +43,57 @@ namespace Snai3i_API.Controllers
         [Route("{Id}")]
         public async Task<IActionResult> GetById(int Id)
         {
-
-            return Ok(await _toolManager.GetByIdAsync(Id));
-
+            try
+            {
+                return Ok(await _toolManager.GetByIdAsync(Id));
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.InnerException.Message);
+            }
         }
+
 
         //Add tool
 
         [HttpPost]
-        public async Task<IActionResult> AddTool([FromBody]AddToolDTO toolAddDTO)
+        public async Task<IActionResult> AddTool([FromForm] AddToolDTO toolAddDTO)
         {
-            var adminName = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            if (adminName == null)
+            try
             {
-                return Unauthorized("User not authenticated");
-            }
-           
-            await _toolManager.AddAsync(toolAddDTO);
-            return NoContent();
+                var adminName = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
+                //if (adminName == null)
+                //{
+                //    return Unauthorized("User not authenticated");
+                //}
+
+                await _toolManager.AddAsync(toolAddDTO);
+                return Ok("Tool Added Successfully");
+            }
+            catch (Exception ex)
+            {
+
+                return Content($" unfortunately your review is not added + {ex.InnerException.Message}");
+            }
         }
+
+
 
         //update tool 
 
         [HttpPut]
         [Route("{Id}")]
-        public async Task<ActionResult> EditTool(int Id, [FromBody] UpdateToolDTO toolUpdateDTO)
+        public async Task<ActionResult> EditTool(int Id, [FromForm] UpdateToolDTO toolUpdateDTO)
         {
             var adminName = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            if (adminName == null)
+            try
             {
-                return Unauthorized("User not authenticated");
-            }
+            //    if (adminName == null)
+            //{
+            //    return Unauthorized("User not authenticated");
+            //}
 
             if (Id != toolUpdateDTO.Id)
             {
@@ -73,6 +102,12 @@ namespace Snai3i_API.Controllers
 
             await _toolManager.UpdateAsync(toolUpdateDTO);
             return NoContent();
+
+            }
+            catch (Exception ex)
+            {
+                return Content($"cant alter your review as + {ex.InnerException.Message}");
+            }
 
         }
 
@@ -85,17 +120,29 @@ namespace Snai3i_API.Controllers
         public async Task<ActionResult> DeleteTool(int id)
         {
             var adminName = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            if (adminName == null)
+            try
             {
-                return Unauthorized("User not authenticated");
-            }
+            //    if (adminName == null)
+            //{
+            //    return Unauthorized("User not authenticated");
+            //}
 
-            await _toolManager.DeleteAsync(id);
-            return NoContent();
+                await _toolManager.DeleteAsync(id);
+                return Content("your Tool is deleted successfuly!");
+
+            } catch (Exception ex)
+            {
+                return NotFound(ex.InnerException.Message);
+            }
 
         }
 
+      
+               
 
     }
+            
 }
+
+
+  

@@ -1,5 +1,4 @@
-﻿using Snai3i_BLL.DTO.SizesDTO;
-using Snai3i_DAL.Data.Models;
+﻿using Snai3i_DAL.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;

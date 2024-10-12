@@ -13,7 +13,8 @@ namespace Snai3i_DAL.Data.Repository.ToolsRepository
     {
 
         ///
-        //public Task<IEnumerable<Tool>> GetAllincAsync();
+        public Task<IEnumerable<Tool>> GetAllincAsync();
+        public Task<Tool> GetByIdincAsync(int id);
 
 
 

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Snai3i_API.Hubs;
 using Snai3i_BLL.Automapping;
 using Snai3i_BLL.Manager.Acountmanager;
 using Snai3i_BLL.Manager.SizesManager;
@@ -108,7 +109,7 @@ namespace Snai3i_API
             builder.Services.AddScoped<ISizeManager, SizeManager>();
 
             //builder.Services.AddScoped<ICraftManger, CraftManger>();
-
+            builder.Services.AddSignalR();
 
             var app = builder.Build();
 
@@ -125,7 +126,7 @@ namespace Snai3i_API
 
             app.UseAuthorization();
 
-
+            app.MapHub<ChatHub>("/chat");//it take class name and you give it the url 
             app.MapControllers();
 
             app.Run();

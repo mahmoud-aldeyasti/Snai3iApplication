@@ -634,6 +634,23 @@ namespace Snai3i_DAL.Data.Context
         }
 
 
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            foreach (var entry in ChangeTracker.Entries())
+            {
+                var entity = entry.Entity;
+
+                // Check if the entity implements soft-delete
+                if (entry.State == EntityState.Deleted && entity is Isoftdelete)
+                {
+                    entry.State = EntityState.Unchanged;  // Prevent actual deletion
+                    entity.GetType().GetProperty("Isdeleted")?.SetValue(entity, true);  // Mark as deleted
+                }
+            }
+
+            // Call the base SaveChangesAsync method to persist changes
+            return await base.SaveChangesAsync(cancellationToken);
+        }
 
     }
 }

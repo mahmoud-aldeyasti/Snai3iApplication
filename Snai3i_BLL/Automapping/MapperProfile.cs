@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Snai3i_BLL.DTO.AcountDto;
-using Snai3i_BLL.DTO.SizesDTO;
 using Snai3i_BLL.DTO.ToolsDTO;
 using Snai3i_DAL.Data.Models;
 using System;
@@ -22,7 +21,7 @@ namespace Snai3i_BLL.Automapping
            // CreateMap<Tool, ReadToolDTO>().ReverseMap();
             CreateMap<Tool, AddToolDTO>().ReverseMap();
             CreateMap<Tool, UpdateToolDTO>().ReverseMap();
-            CreateMap<Tool, DeleteToolDTO>().ReverseMap();
+            //CreateMap<Tool, DeleteToolDTO>().ReverseMap();
 
             CreateMap<Size, ReadSizeDTO>().ReverseMap();
 

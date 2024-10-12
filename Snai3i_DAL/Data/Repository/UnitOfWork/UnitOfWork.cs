@@ -1,4 +1,6 @@
-﻿using Snai3i_DAL.Data.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
+using Snai3i_DAL.Data.Context;
 using Snai3i_DAL.Data.Repository.SizesRepository;
 using Snai3i_DAL.Data.Repository.ToolsRepository;
 using System;
@@ -13,9 +15,12 @@ namespace Snai3i_DAL.Data.Repository.UnitOfWork
     {
 
 
-        private readonly SnaiiDBContext _context;
-        public IToolRepository Toolss { get; private set; }
-        public ISizeRepository Sizee { get; private set; }
+        
+        private readonly SnaiiDBContext _context = null;
+        private IDbContextTransaction? _objTran = null;
+
+        public ToolRepository Toolss { get; private set; }
+        public SizeRepository Sizee { get; private set; }
 
         //public ICraftRepo Craftt { get; private set; }
 
@@ -27,10 +32,37 @@ namespace Snai3i_DAL.Data.Repository.UnitOfWork
             //Craftt = new CraftRepo(_context);
         }
 
-
-        public async Task<int> CompleteAsync()
+        public void CreateTransaction()
         {
-            return await _context.SaveChangesAsync();
+            _objTran = _context.Database.BeginTransaction();
+        }
+
+        public void Commit()
+        {
+            _objTran?.Commit();
+        }
+
+        public void Rollback()
+        {
+            _objTran?.Rollback();
+
+            _objTran?.Dispose();
+        }
+
+
+        public async Task CompleteAsync()
+        {
+            try
+            {
+                //Calling DbContext Class SaveChanges method 
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                // Handle the exception, possibly logging the details
+                // The InnerException often contains more specific details
+                throw new Exception(ex.Message, ex);
+            }
         }
 
         public void Dispose()
