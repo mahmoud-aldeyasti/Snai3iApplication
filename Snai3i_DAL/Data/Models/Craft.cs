@@ -12,6 +12,9 @@ namespace Snai3i_DAL.Data.Models
 
         public string  CraftName { get; set; }
 
+        public string PictureUrl { get; set; }
+
+
         public ICollection<Worker> workers { get; set; } = new HashSet<Worker>();
     }
 }

@@ -13,6 +13,11 @@ namespace Snai3i_DAL.Data.Configration
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
+            builder.HasOne(e => e.review)
+                .WithOne(e => e.order)
+                .HasForeignKey<Review>(e => e.OrderId)
+                .IsRequired(); 
+
             builder.Property(a => a.Isdeleted)
            .HasDefaultValue(false);
 

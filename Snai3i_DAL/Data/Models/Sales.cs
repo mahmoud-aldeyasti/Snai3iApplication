@@ -10,7 +10,6 @@ namespace Snai3i_DAL.Data.Models
     {
         public int Id { get; set; }
 
-        public int CardId { get; set; }
 
         public DateTime Date { get; set; }
 
@@ -20,8 +19,21 @@ namespace Snai3i_DAL.Data.Models
 
         public string OrderState { get; set; }
 
-        public Card card { get; set; } = new Card();
+        public string UserId { get; set; }
+
+        public User user { get; set; } = null;
+
+        public string WorkerId { get; set; }
+
+        public Worker worker { get; set; } = null;
+
+        public int CardId { get; set; }
+
+        public Card card { get; set; } = null;
 
 
     }
+
+
+
 }

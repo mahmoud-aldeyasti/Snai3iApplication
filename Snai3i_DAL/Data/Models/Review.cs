@@ -8,22 +8,19 @@ namespace Snai3i_DAL.Data.Models
 {
     public class Review : Deletebase, Isoftdelete
     {
-        public int UsertId { get; set; }
+        public int Id { get; set; }
+        public string UserId { get; set; }
+        public User user { get; set; } = null;
 
-        public int WorkerId { get; set; }
+        public string WorkerId { get; set; }
+        public Worker worker { get; set; } = null;
 
         public float Rate { get; set; }
 
-        public string Comment { get; set; } 
+        public string Comment { get; set; }
 
-        public int OrderNumber { get; set; }
+        public int OrderId { get; set; }
 
-
-        public User user { get; set; } = new User();
-        public Worker worker { get; set; } = new Worker();
-
-        public Order order { get; set; } = new Order();
-
-        public ICollection<Card> cards { get; set; } = new HashSet<Card>();
+        public Order order { get; set; } = null;
     }
 }

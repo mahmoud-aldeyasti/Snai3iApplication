@@ -15,6 +15,14 @@ namespace Snai3i_DAL.Data.Configration
 
         public void Configure(EntityTypeBuilder<Card> builder)
         {
+           
+
+            builder.HasOne(e => e.buyer).
+                WithMany(e => e.cards).
+                HasForeignKey(e => e.BuyerId).
+                IsRequired(); 
+
+
             builder.Property(a => a.Isdeleted)
                .HasDefaultValue(false);
 
