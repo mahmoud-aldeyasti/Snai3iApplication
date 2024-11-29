@@ -18,7 +18,10 @@ namespace Snai3i_BLL.Manager.AdminstrationManage
 
         Task<IdentityResult> Edit( EditRoleDto editRoleDto);
 
-        //Task<IdentityResult> AssignRoleToUser(string userId, string roleId);
+        Task<IdentityResult> AssignRoleToUser(string userId, string roleId);
+
+        Task<IdentityResult> RemoveRoleFromUser(string userId, string roleId);
+
     }
 
 }

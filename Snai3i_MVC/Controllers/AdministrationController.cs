@@ -80,7 +80,7 @@ namespace Snai3i_MVC.Controllers
 
                 }
                 var error = await response.Content.ReadAsStringAsync();
-                ViewBag.ErrorMessage = "Login failed: " + error;
+                ViewBag.ErrorMessage = "Something Gone Wrong: " + error;
                 return RedirectToAction("ListRoles", "Administration");
             }
 

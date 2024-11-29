@@ -1,0 +1,21 @@
+﻿@using Snai3i_BLL.DTO.AcountDto
+
+
+@model LoginDTO
+
+@{
+    Layout = "RegisteredLayout";
+}
+
+
+@{
+    ViewData["Title"] = "Change Password Confirmation";
+}
+<h4>
+    Your password is successfully changed.
+</h4>
+<form asp-action="LoginSave" asp-controller="Accounts" method="post">
+    <input type="hidden" name="email" value="@Model.email" />
+    <input type="hidden" name="password" value="@Model.password" />
+    <button type="submit" class="btn btn-success p-2 my-2">Return To Profile</button>
+</form>

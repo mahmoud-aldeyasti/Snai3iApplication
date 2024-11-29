@@ -21,7 +21,7 @@ namespace Snai3i_DAL.Data.Repository.UserReop
         public async Task<PagedList<ApplicationUser>> GetAllUsers(UserParameters userparams)
         {
             var userpagedlist = Context.applicationUsers
-                                  .Where(a => a.GetType() == typeof(Worker)); 
+                                  .Where(a => a.GetType() == typeof(User)); 
 
             return await PagedList<ApplicationUser>.ToPagedList(userpagedlist
                 , userparams.pagesize,

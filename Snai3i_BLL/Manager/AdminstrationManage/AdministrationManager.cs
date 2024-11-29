@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -84,27 +85,76 @@ namespace Snai3i_BLL.Manager.AdminstrationManage
             
         }
 
-    //    public async Task<IdentityResult> AssignRoleToUser(string userId, string roleId)
-    //    {
-    //        var user =await  userManager.FindByIdAsync(userId);
-    //        if (user == null) {
-    //            return IdentityResult.Failed(new IdentityError { Description = "user not found " });
-    //        }
+        public async Task<IdentityResult> AssignRoleToUser(string userId, string roleId)
+        {
+            var user = await userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return IdentityResult.Failed(new IdentityError { Description = "User not found" });
+            }
 
-    //        var role = await roleManager.FindByIdAsync(roleId);
+            var role = await roleManager.FindByIdAsync(roleId);
+            if (role == null)
+            {
+                return IdentityResult.Failed(new IdentityError { Description = "Role not found" });
+            }
 
-    //        if (role == null) {
-    //            return IdentityResult.Failed(new IdentityError
-    //            {
-    //                Description = "there's " +
-    //                "no such role"
-    //            });
-    //        }
-    //        var result = await userManager.AddToRoleAsync(user, role?.Name);
+            var userRoles = await userManager.GetRolesAsync(user);
+            if (userRoles.Contains(role.Name))
+            {
+                return IdentityResult.Failed(new IdentityError { Description = "User is already assigned to this role" });
+            }
+
+            var roleResult = await userManager.AddToRoleAsync(user, role.Name);
+            if (!roleResult.Succeeded)
+            {
+                return roleResult;
+            }
+
+            var claimResult = await userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, role.Name));
+            if (!claimResult.Succeeded)
+            {
+                return claimResult;
+            }
+
+            return IdentityResult.Success;
+        }
 
 
+        public async Task<IdentityResult> RemoveRoleFromUser(string userId, string roleId)
+        {
+            var user = await userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return IdentityResult.Failed(new IdentityError { Description = "User not found" });
+            }
 
+            var role = await roleManager.FindByIdAsync(roleId);
+            if (role == null)
+            {
+                return IdentityResult.Failed(new IdentityError { Description = "Role not found" });
+            }
 
-    //    }
+            var userRoles = await userManager.GetRolesAsync(user);
+            if (!userRoles.Contains(role.Name))
+            {
+                return IdentityResult.Failed(new IdentityError { Description = "User is not assigned to this role" });
+            }
+
+            var roleResult = await userManager.RemoveFromRoleAsync(user, role.Name);
+            if (!roleResult.Succeeded)
+            {
+                return roleResult;
+            }
+
+            var claimResult = await userManager.RemoveClaimAsync(user, new Claim(ClaimTypes.Role, role.Name));
+            if (!claimResult.Succeeded)
+            {
+                return claimResult;
+            }
+
+            return IdentityResult.Success;
+        }
+
     }
 }

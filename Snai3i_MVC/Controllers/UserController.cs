@@ -17,6 +17,7 @@ namespace Snai3i_MVC.Controllers
         public UserController(HttpClient httpclient)
         {
             _httpClient = httpclient;
+            _httpClient.BaseAddress = new Uri("https://localhost:7000/");
         }
         public IActionResult Index()
         {
@@ -34,7 +35,7 @@ namespace Snai3i_MVC.Controllers
                 return RedirectToAction("Login", "Accounts"); // Redirect to login if token is missing
             }
 
-            string url = $"api/User?PageNumber={PageNumber}&pagesize={pagesize}";
+            string url = $"api/User/GetAllUsers?PageNumber={PageNumber}&pagesize={pagesize}";
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
@@ -58,9 +59,9 @@ namespace Snai3i_MVC.Controllers
                     PropertyNameCaseInsensitive = true
                 };
 
-                var workerdata = await System.Text.Json.JsonSerializer.DeserializeAsync<UserReadDto>(responseStream, options);
+                var userdata = await System.Text.Json.JsonSerializer.DeserializeAsync<UserDataDto>(responseStream, options);
 
-                return View(workerdata);
+                return View(userdata);
             }
             else
             {

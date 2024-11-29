@@ -12,17 +12,17 @@ namespace Snai3i_DAL.Data.Repository.CardRepository
 {
     public class CartRebo : GenericRepository<Card>, ICartRebo
     {
-        private readonly SnaiiDBContext _context;
+
 
         public CartRebo(SnaiiDBContext context) : base(context)
         {
-            _context = context;
+
         }
 
 
         public async Task<IEnumerable<Card>> GetAllCart()
         {
-            return await _context.cards
+            return await Context.cards
                            .Include(c => c.tool)
                           
                            .Include(c => c.size)
@@ -32,7 +32,7 @@ namespace Snai3i_DAL.Data.Repository.CardRepository
 
         public async Task<Card> GetByIdCart(int id)
         {
-            return await _context.cards
+            return await Context.cards
                                        .Include(c => c.tool)
                        
                            .Include(c => c.size)
@@ -43,7 +43,7 @@ namespace Snai3i_DAL.Data.Repository.CardRepository
 
         public async Task<IEnumerable<Card>> GetCardbybuyer(string Id)
         {
-            return await _context.cards.Include(c => c.tool)
+            return await Context.cards.Include(c => c.tool)
                            
                            .Include(c => c.size)
                            .Include(c => c.buyer).Where(a=> a.BuyerId == Id).ToListAsync();
@@ -51,7 +51,7 @@ namespace Snai3i_DAL.Data.Repository.CardRepository
 
         public async Task<Card> GetCardByUseAndTool(string buyerId, int ToolId)
         {
-            return await _context.cards
+            return await Context.cards
                            .FirstOrDefaultAsync(a => a.BuyerId == buyerId && a.ToolId==ToolId);
         }
 
@@ -71,7 +71,7 @@ namespace Snai3i_DAL.Data.Repository.CardRepository
 
 		public async Task<IEnumerable<Card>> GetAllCardsAsync(string buyerId)
 		{
-			return await _context.cards
+			return await Context.cards
 		  .Include(c => c.tool)
 		  .Include(c => c.size)
 		  
@@ -81,23 +81,23 @@ namespace Snai3i_DAL.Data.Repository.CardRepository
 
 		public async Task AddCardAsync(Card card)
 		{
-			await _context.cards.AddAsync(card);
-			await _context.SaveChangesAsync();
+			await Context.cards.AddAsync(card);
+			await Context.SaveChangesAsync();
 		}
 
 		public async Task RemoveCardAsync(int cardId)
 		{
-			var card = await _context.cards.FindAsync(cardId);
+			var card = await Context.cards.FindAsync(cardId);
 			if (card != null)
 			{
-				_context.cards.Remove(card);
-				await _context.SaveChangesAsync();
+				Context.cards.Remove(card);
+				await Context.SaveChangesAsync();
 			}
 		}
 
 		public async Task<Card> GetCardByIdAsync(int cardId)
 		{
-			return await _context.cards
+			return await Context.cards
 		   .Include(c => c.tool)
 		   .Include(c => c.size)
 		   

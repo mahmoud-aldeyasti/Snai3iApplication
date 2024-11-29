@@ -14,7 +14,7 @@ using Snai3i_BLL.Manager.SalessManager;
 using Snai3i_BLL.Manager.UserManager;
 using Snai3i_BLL.Manager.WorkerManager;
 using Snai3i_BLL.Manager.AdminstrationManage;
-using Snai3i_DAL.Data.Repository.BasketRepositry;
+
 using Snai3i_BLL.Manager.CardManager;
 using Snai3i_DAL.Data.Repository.CardRepository;
 using Snai3i_DAL.Data.Context;
@@ -40,6 +40,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Snai3i_BLL.Manager.ChatsManager;
 using Snai3i_DAL.Data.Repository.ChatsRepository;
 using Snai3i_API.Hubs;
+using Microsoft.AspNetCore.Mvc;
+using Snai3i_DAL.Data.service.ErrorHandling;
 
 
 namespace Snai3i_API
@@ -143,7 +145,7 @@ namespace Snai3i_API
             builder.Services.AddScoped<ISizeRepository, SizeRepository>();
             builder.Services.AddScoped<IworkerRepository, WorkerRepository>();
             builder.Services.AddScoped<IuserRepository, UserRepository>();
-            builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+
             builder.Services.AddScoped<ICartRebo, CartRebo>();
 
             builder.Services.AddScoped<Ifileservice, FileService>();
@@ -176,6 +178,23 @@ namespace Snai3i_API
                 });
             });
 
+            // register validation Error Handling 
+            builder.Services.Configure<ApiBehaviorOptions>(options => {
+
+                options.InvalidModelStateResponseFactory = (actioncontext) =>
+                {
+                    var errors = actioncontext.ModelState.Where(p => p.Value.Errors.Count() > 0).
+                    SelectMany(p => p.Value.Errors).
+                    Select(e => e.ErrorMessage).ToArray();
+
+                    var validationerrorResponse = new ValidationErrorApiResponse()
+                    {
+                        Errors = errors
+                    };
+                    return new BadRequestObjectResult(validationerrorResponse);
+                };
+            });
+
 
             // register automapper 
 
@@ -200,6 +219,8 @@ namespace Snai3i_API
            Path.Combine(Directory.GetCurrentDirectory(), "Uploads")),
                 RequestPath = "/Uploads"
             });
+
+            app.UseStatusCodePagesWithReExecute("/Errors/{0}");
             app.UseHttpsRedirection();
             app.UseMiddleware<ExceptionMiddleware>();
 

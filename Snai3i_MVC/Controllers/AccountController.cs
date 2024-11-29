@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using Newtonsoft.Json;
+using NuGet.Configuration;
 using Snai3i_BLL.DTO.AcountDto;
 using Snai3i_BLL.DTO.WorkerDto;
 using Snai3i_DAL.Data.Models;
@@ -9,11 +12,13 @@ using Snai3i_MVC.Models;
 
 using System.Diagnostics;
 using System.Drawing.Printing;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Snai3i_MVC.Controllers
@@ -61,7 +66,8 @@ namespace Snai3i_MVC.Controllers
             };
 
             // Convert the loginData object to JSON format
-            var jsonContent = new StringContent(JsonSerializer.Serialize(loginData), Encoding.UTF8, "application/json");
+            var jsonContent = new StringContent(JsonSerializer.Serialize(loginData), Encoding.UTF8,
+                "application/json");
 
             // Send POST request to API
             var httpResponse = await _httpClient.PostAsync("/api/Account/Login", jsonContent);
@@ -74,6 +80,18 @@ namespace Snai3i_MVC.Controllers
 
                 //Store the token in session
                 HttpContext.Session.SetString("AuthToken", token);
+                // decode the token to know the roles of the user 
+                var roleclaim = GetRoles(token);
+                // if the logged in user is admin or superadmin it goes to the dashboard 
+                // if not admin or superadmin it goes to the logged user view  
+                foreach(var role in roleclaim)
+                {
+                    if(role.Value == usertype.Admin.ToString() ||
+                        role.Value == usertype.SuperAdmin.ToString() )
+                    {
+                        return View("Index");
+                    }
+                }
                 return View( "Logged", login );
 
                 // return RedirectToAction("GetallWorkers", "Worker");
@@ -90,6 +108,9 @@ namespace Snai3i_MVC.Controllers
                 return View("Login"  );
             }
         }
+
+
+
         [HttpGet("Profile")]
         public async Task<IActionResult> Profile(string mail)
         {
@@ -163,10 +184,24 @@ namespace Snai3i_MVC.Controllers
                     {
                         var response = await httpResponse.Content.ReadAsStreamAsync();
                         var token = JsonSerializer.Deserialize<GeneralResponse>(response)?.token;
-
                         HttpContext.Session.SetString("AuthToken", token);
+                        // decode the token to know the roles of registered user 
+                        var roleclaim = GetRoles(token);
 
-                        return View("Registered");
+                        // loop the roles of registered user if it's admin or super admin 
+                        // it goes to the dashboard if not admin or superadmin it goes to 
+                        // the registeration view 
+                        foreach (var role in roleclaim)
+                        {
+                            if (role.Value == usertype.Admin.ToString() ||
+                                role.Value == usertype.SuperAdmin.ToString())
+                            {
+                                return View("Index");
+                            }
+
+                        }
+
+                        return View("Registered" , register);
                     }
                     else
                     {
@@ -194,6 +229,7 @@ namespace Snai3i_MVC.Controllers
 
 
             if (httpresponse.IsSuccessStatusCode) {
+                HttpContext.Session.Remove("AuthToken");
                 return RedirectToAction("Login" , "Accounts");
             }
 
@@ -202,45 +238,169 @@ namespace Snai3i_MVC.Controllers
             return View("Logged"); 
            
         }
-        //Accounts/GetLocationData
-        //[HttpGet("GetLocationData")]
-        //public async Task<IActionResult> GetLocationData(double latitude, double longitude)
-        //{
-        //    var Id = httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "System";
-        //    string userurl = "/api/Account/GetByIdAsync/Id";
 
-        //    var response = await _httpClient.GetAsync(userurl);
+        [HttpGet("Edit")]
+        public async Task<IActionResult> Edit(string user_Id)
+        {
+            var token = HttpContext.Session.GetString("AuthToken");
 
-        //    if (response.IsSuccessStatusCode)
-        //    {
+            if (string.IsNullOrEmpty(token) ){
+                return RedirectToAction("Login", "Accounts");
+            }
 
-        //        var content = await response.Content.ReadAsStringAsync();
-        //        var settings = new JsonSerializerSettings
-        //        {
-        //            MissingMemberHandling = MissingMemberHandling.Ignore,
-        //            NullValueHandling = NullValueHandling.Ignore
-        //        };
-        //        var appuser = JsonConvert.DeserializeObject<ApplicationUser>(content, settings);
+            var url = $"https://localhost:7000/api/Account/{user_Id}";
 
-        //        string url = $"https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=" +
-        //            $"{latitude}&lon={longitude}&addressdetails=1";
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+                "Bearer", token); 
 
-        //        // Send the GET request
-        //        var httpResponse = await _httpClient.GetAsync(url);
-        //        if (!httpResponse.IsSuccessStatusCode)
-        //        {
-        //            return BadRequest("Failed to retrieve location data.");
-        //        }
+            var httpResponse = await  _httpClient.GetAsync(url);
 
-        //        // Read the response content
-        //        var usercontent = await httpResponse.Content.ReadAsStringAsync();
+            if(httpResponse.IsSuccessStatusCode)
+            {
+                var Content = await httpResponse.Content.ReadAsStringAsync();
+                var settings = new JsonSerializerSettings
+                {
+                    MissingMemberHandling = MissingMemberHandling.Ignore,
+                    NullValueHandling = NullValueHandling.Ignore,
+                };
+
+                var appUserEdit = JsonConvert.DeserializeObject<ApplicationUserEditDto>(Content , settings);
+
+                return View (appUserEdit);
+               
+            }
+            var error = await httpResponse.Content.ReadAsStringAsync();
+            ViewBag.ErrorMessage = "Registration failed: " + error;
+            return RedirectToAction("Profile", "Accounts" );
+
+        }
+
+        [HttpPost("Edit")]
+        [Route("{user_Id}")]
+
+        public async Task<IActionResult> Edit(string user_Id , [FromForm] ApplicationUserEditDto appuserEdit)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var token = HttpContext.Session.GetString("AuthToken");
+
+                var url = $"/api/Account/Edit/{user_Id}";
+
+                    using (var content = new MultipartFormDataContent())
+                    {
+                        content.Add(new StringContent(appuserEdit.FirstName), "FirstName");
+                        content.Add(new StringContent(appuserEdit.LastName), "LastName");
+                        content.Add(new StringContent(appuserEdit.Email), "Email");
+                        content.Add(new StringContent(appuserEdit.phone), "phone");
+                        content.Add(new StringContent(appuserEdit.userId), "userId");
 
 
-        //        // Return the JSON content (could also return a custom object if you want to parse it)
-        //        return Content(content, "application/json");
-        //    }
-        //    return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        //}
+
+                    if (appuserEdit.imageFile != null)
+                        {
+                            var fileContent = new StreamContent(appuserEdit.imageFile.OpenReadStream());
+                            fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(appuserEdit.imageFile.ContentType);
+                            content.Add(fileContent, "imageFile", appuserEdit.imageFile.FileName);
+                        }
+
+
+                        _httpClient.DefaultRequestHeaders.Authorization =
+                        new AuthenticationHeaderValue("Bearer", token);
+
+                        var httpresponse = await _httpClient.PutAsync(url, content);
+
+                        if (httpresponse.IsSuccessStatusCode)
+                        {
+                            var result =await  httpresponse.Content.ReadAsStringAsync();
+                            var settings = new JsonSerializerSettings
+                            {
+                                MissingMemberHandling = MissingMemberHandling.Ignore,
+                                NullValueHandling = NullValueHandling.Ignore,
+                            };
+
+                            var appUser = JsonConvert.DeserializeObject<ApplicationUser>(result, settings);
+
+                        return RedirectToAction("Profile", "Accounts" , new { mail = appUser.Email });
+                        // be careful when redirection a route value in action redirect 
+                        // pass it as parameter of anonymous object 
+
+
+                        }
+                        var Error = httpresponse.Content.ReadAsStringAsync();
+
+                        ViewBag.ErrorMessage = "Edit failed: " + Error;
+
+                        return View(Error);
+                    }
+
+                }
+                return View(appuserEdit);
+            
+        }
+
+        [HttpGet("ChangePassword/{ID}")]
+        public async Task<IActionResult> ChangePassword(string ID)
+        {
+            var url = "api/Account/ChangePassword";
+
+            var token = HttpContext.Session.GetString("AuthToken");
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+                "Bearer", token);
+
+            var httpresponse = await _httpClient.GetAsync(url);
+
+            if (httpresponse.IsSuccessStatusCode) {
+                return View(new ChangePasswordDto { Id = ID , } );
+            }
+            return RedirectToAction("Login", "Accounts");
+        }
+
+        [HttpPost("ChangePassword")]
+
+        public async Task<IActionResult> ChangePassword(ChangePasswordDto changepassword)
+        {
+            var url = "api/Account/ChangePassword";
+
+            var token = HttpContext.Session.GetString("AuthToken");
+
+            var content = new StringContent(JsonSerializer.Serialize(changepassword),
+                Encoding.UTF8, "application/json"); 
+
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+                "Bearer", token); 
+
+            var httpresponse = await _httpClient.PostAsync(url, content);
+
+            if (httpresponse.IsSuccessStatusCode) {
+                var result = await httpresponse.Content.ReadAsStringAsync();
+                var settings = new JsonSerializerSettings
+                {
+                    MissingMemberHandling = MissingMemberHandling.Ignore,
+                    NullValueHandling = NullValueHandling.Ignore,
+                };
+                var loginuser = JsonConvert.DeserializeObject<LoginDTO>(result , settings);
+                return View("ConfirmNewPassord" , loginuser); 
+            }
+            var errorstring =await httpresponse.Content.ReadAsStringAsync();
+            ViewBag.ErrorMessage = "Changing Password failed : " + errorstring;
+            return RedirectToAction("ChangePassword", "Accounts");
+
+        }
+
+
+        
+
+
+        public List<Claim> GetRoles( string token)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var tokencoded = handler.ReadJwtToken(token);
+            var roleclaim = tokencoded.Claims.Where(a => a.Type == ClaimTypes.Role).ToList();
+            return roleclaim;
+        }
     
     }
 }

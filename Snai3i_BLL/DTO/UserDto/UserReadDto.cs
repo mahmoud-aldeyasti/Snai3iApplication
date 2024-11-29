@@ -19,7 +19,7 @@ namespace Snai3i_BLL.DTO.UserDto
         public double? Longitude { get; set; }
         public double? Latitude { get; set; }
 
-        public string RoleName { get; set; }
+
         public string image { get; set; }
 
         public bool Isdeleted { get; set; }

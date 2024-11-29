@@ -99,8 +99,8 @@ namespace Snai3i_BLL.Manager.Acountmanager
             }
         }
             public async Task<GeneralResponse>advaneRegisteration(ApplicationUser register,RegisterDto RegisterDto) { 
-            // Map usertype to ImageType enum
-            ImageType imageType = RegisterDto.usertype == usertype.User ? ImageType.User : ImageType.Worker;
+            //// Map usertype to ImageType enum
+            //ImageType imageType = RegisterDto.usertype == usertype.User ? ImageType.User : ImageType.Worker;
 
             var imageresult = _fileservice.SaveImage(RegisterDto.imageFile);
             if (imageresult.Item1 == 1)
@@ -152,6 +152,7 @@ namespace Snai3i_BLL.Manager.Acountmanager
             var appuser = await _userManager.FindByEmailAsync(email);
             var appuserrad = new ApplicationUserReadDto
             {
+                Id = appuser.Id,
                 Email = appuser.Email,
                 phone = appuser.PhoneNumber,
                 image = appuser.image,
@@ -168,7 +169,60 @@ namespace Snai3i_BLL.Manager.Acountmanager
         }
 
 
+        public async Task<ApplicationUserEditDto?> Edit(string UserId)
+        {
+            return mapper.Map<ApplicationUser? , ApplicationUserEditDto?>
+                (await _userManager.FindByIdAsync(UserId) ); 
 
+
+        }
+
+        public async Task<ApplicationUser> Edit(ApplicationUserEditDto EditDto)
+        {
+            var appuser =await _userManager.FindByIdAsync(EditDto.userId);
+
+            var imageresult = _fileservice.SaveImage(EditDto.imageFile);
+
+            if( imageresult.Item1 == 1)
+            {
+                _fileservice.DeleteImage(appuser.image);
+                appuser.image = imageresult.Item2;  
+            }
+
+            appuser.UserName = EditDto.FirstName;
+            appuser.LastName = EditDto.LastName;
+            appuser.PhoneNumber = EditDto.phone;
+            appuser.Email = EditDto.Email;
+
+
+            await _userManager.UpdateAsync(appuser);
+
+            return appuser;
+
+        }
+
+
+        public async Task<LoginDTO?> ChangePasswordAsync(ChangePasswordDto changePassword)
+        {
+            var appuser =await _userManager.FindByIdAsync(changePassword.Id);
+            if (appuser != null) {
+
+                var result =await _userManager.CheckPasswordAsync(appuser, changePassword.OldPassword);
+                if( result == true)
+                {
+                    var change = await _userManager.ChangePasswordAsync( appuser, changePassword.OldPassword,
+                        changePassword.NewPassword );
+                    if (change.Succeeded) {
+                        return new LoginDTO
+                        {
+                            email = appuser.Email,
+                            password = changePassword.NewPassword,
+                        }; 
+                    }
+                }
+            }
+            return null;
+        }
         private GeneralResponse GenerateToken( IList<Claim> claims)
         {
             var secretKeyString = _configuration.GetValue<string>("SK"); 
@@ -193,7 +247,6 @@ namespace Snai3i_BLL.Manager.Acountmanager
                 expiredate = _expiredate
             };  
         }
-
 
     }
 }

@@ -57,9 +57,18 @@ namespace Snai3i_BLL.Automapping
                 ForMember(dest => dest.RoleId, opt => opt.MapFrom(src => src.Id)).
                 ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => src.Name)).
                 ReverseMap();
+
             CreateMap<IdentityRole, EditRoleDto>().
                 ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id)).
                 ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ReverseMap();
+
+
+            CreateMap<ApplicationUser , ApplicationUserEditDto>().
+                ForMember( dest => dest.userId , act => act.MapFrom( source => source.Id) )
+                .ForMember( dest => dest.FirstName , act => act.MapFrom(src => src.UserName ) ).
+                ForMember( dest => dest.phone , act => act.MapFrom( src => src.PhoneNumber ) )  
+                
                 .ReverseMap();
         }
 

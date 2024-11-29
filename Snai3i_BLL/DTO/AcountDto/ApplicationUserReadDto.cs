@@ -8,6 +8,7 @@ namespace Snai3i_BLL.DTO.AcountDto
 {
     public class ApplicationUserReadDto
     {
+        public string Id { get; set; }
         public string LastName { get; set; }
 
         public string FirstName { get; set; }

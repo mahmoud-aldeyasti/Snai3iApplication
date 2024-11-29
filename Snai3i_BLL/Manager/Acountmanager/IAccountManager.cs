@@ -18,6 +18,12 @@ namespace Snai3i_BLL.Manager.Acountmanager
 
         Task<ApplicationUser?> GetByIdAsync(string id);
         Task<ApplicationUserReadDto?> GetByIdMailAsync(string email);
+
+        Task<ApplicationUserEditDto?> Edit(string UserId); 
+
+        Task<ApplicationUser> Edit(ApplicationUserEditDto EditDto);  
+
+        Task<LoginDTO?> ChangePasswordAsync( ChangePasswordDto changePassword );
         Task signout();
     }
 }

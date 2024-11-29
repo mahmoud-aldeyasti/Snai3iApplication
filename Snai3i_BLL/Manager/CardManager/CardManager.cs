@@ -19,9 +19,9 @@ namespace Snai3i_BLL.Manager.CardManager
     public class CardManager : ICardManager
 
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public CardManager(UnitOfWork unitOfWork, IMapper mapper )
+        public CardManager(IUnitOfWork unitOfWork, IMapper mapper )
         {
            
             _unitOfWork = unitOfWork;

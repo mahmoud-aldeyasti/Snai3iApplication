@@ -1,0 +1,86 @@
+﻿@using Snai3i_BLL.DTO.UserDto
+
+@model UserDataDto
+@{
+    ViewData["Title"] = "Users";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h6 class="text-secondary text-uppercase">Our Customers</h6>
+            <h1 class="mb-5">Our valued Customers</h1>
+        </div>
+
+        <div class="row g-4">
+            @if (Model.userReadList != null && Model.userReadList.Count > 0)
+            {
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        Customers
+                    </div>
+                    <div class="card-body">
+                        <table id="datatablesSimple">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Photo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var users in Model.userReadList)
+                                {
+                                    <tr>
+                                        <td>@(users.Firstname + " " + users.LastName)</td>
+                                        <td>@users.email</td>
+                                        <td>@users.phone</td>
+                                        <td style="width: 300px; height: 250px;"><img 
+                                            style="width : 100% ; height: 100%" src="https://localhost:7000/Uploads/@users.image" /></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <nav>
+                    <ul class="pagination">
+                        @if (Model.data.HasPreviousPage)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-action="GetallUsers" asp-controller="Users" asp-route-PageNumber="@(Model.data.CurrentPage - 1)" asp-route-pagesize="@Model.data.pageSize">Previous</a>
+                            </li>
+                        }
+
+                        @for (int i = 1; i <= Model.data.TotalPages; i++)
+                        {
+                            <li class="page-item @(i == Model.data.CurrentPage ? "active" : "")">
+                                <a class="page-link" asp-action="GetallUsers" asp-controller="Users" asp-route-PageNumber="@i" asp-route-pagesize="@Model.data.pageSize">@i</a>
+                            </li>
+                        }
+
+                        @if (Model.data.HasNextPage)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-action="GetallUsers" asp-controller="Users" asp-route-PageNumber="@(Model.data.CurrentPage + 1)" asp-route-pagesize="@Model.data.pageSize">Next</a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            }
+            else
+            {
+                <p>No Users found.</p>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+

@@ -61,6 +61,16 @@ namespace Snai3i_API.Controllers
             return Ok(await administrationmanager.Edit( editRoleDto));
         }
 
+        public async Task<IActionResult> assignAssignRoleToUser( string UserId , string RoleId)
+        {
+            return Ok(administrationmanager.AssignRoleToUser(UserId , RoleId));
+        }
+
+        public async Task<IActionResult> ReomveRole( string UserId , string RoleId)
+        {
+            return Ok(administrationmanager.RemoveRoleFromUser(UserId , RoleId));
+        }
+
 
     }
 }

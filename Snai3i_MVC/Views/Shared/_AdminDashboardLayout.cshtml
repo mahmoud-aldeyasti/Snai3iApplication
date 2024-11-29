@@ -47,7 +47,8 @@
                            class="btn btn-primary p-2">Getallworkers</a>
 
                         @* <a href="@Url.Action("GetallWorkers","Worker")" class="nav-link">Worker List</a> *@
-                        <a href="@Url.Action("GetAllUsers","Users")" class="nav-link">Users List</a>
+                        <a asp-controller="Users" asp-action="GetallUsers"
+                           asp-route-PageNumber="1" asp-route-pagesize ="2" class="nav-link">Users List</a>
                         <a href="@Url.Action("GetAllTools","Tools")" class="nav-link">Tools List</a>
                         <a href="@Url.Action("GetAllCrafts","Crafts")" class="nav-link">Craft List</a>
 
